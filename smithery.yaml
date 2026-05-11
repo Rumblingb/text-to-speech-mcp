@@ -1,0 +1,29 @@
+# Smithery deployment configuration for Text-to-Speech MCP Server
+# https://smithery.ai/docs/deploy
+
+startCommand:
+  type: stdio
+  configSchema:
+    # JSON Schema defining configuration options for the MCP server
+    type: object
+    properties:
+      defaultVoice:
+        type: string
+        default: "en-US-JennyNeural"
+        description: "Default TTS voice to use"
+      defaultSpeed:
+        type: number
+        default: 1.0
+        description: "Default speech speed multiplier (0.5-2.0)"
+    description: "Text-to-Speech MCP Server configuration"
+  commandFunction:
+    # A function that produces the CLI command for the MCP server
+    |-
+    (config) => ({
+      command: "python",
+      args: ["-m", "server"],
+      env: {
+        EDGE_TTS_VOICE: config.defaultVoice || "en-US-JennyNeural",
+        EDGE_TTS_SPEED: (config.defaultSpeed || 1.0).toString()
+      }
+    })
