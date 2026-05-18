@@ -13,7 +13,7 @@ import base64
 import os
 
 import edge_tts
-from mcp.server import Server, NotificationOptions
+from mcp.server.lowlevel import Server, NotificationOptions
 from mcp.server.models import InitializationOptions
 from mcp.types import (
     GetPromptResult,
